@@ -15,8 +15,8 @@ def random_exception(self, *args, **kwargs):
 
 class DeviceBase(Serial):
     """
-    Classe base para simular a conexão de dispositivos,
-    mas provavelmente usaremos uma lib externa
+    Classe base para simular a conexão de dispositivos
+    sobrescrevendo todos os métodos de Serial
     """
     dictionary = Serial.__dict__
     for method in dictionary:
@@ -28,9 +28,13 @@ class DeviceBase(Serial):
         return random.choice([True, False])
 
     def read(self, *args, **kwargs):
-        random_exception(self)
+        try:
+            random_exception(self)
 
-        return random.choice([True, False])
+            return random.choice([True, False])
+
+        except (SerialException, SerialTimeoutException):
+            return None
 
 
 if __name__ == '__main__':
