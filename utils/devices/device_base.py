@@ -1,27 +1,39 @@
 import random
 
-import serial
+from serial import Serial, SerialException, SerialTimeoutException
 
 
-class DeviceBase:
+def random_exception(self, *args, **kwargs):
+    rand = random.randint(1, 100)
+
+    if 2 < rand < 4:
+        raise SerialException
+
+    elif rand < 2:
+        raise SerialTimeoutException
+
+
+class DeviceBase(Serial):
     """
     Classe base para simular a conexão de dispositivos,
     mas provavelmente usaremos uma lib externa
     """
+    dictionary = Serial.__dict__
+    for method in dictionary:
+        if callable(dictionary[method]):
+            setattr(Serial, method, lambda *a, **k: random_exception(*a, **k))
 
-    def __init__(self, ip_address):
-        # Faz a conexão
+    def isOpen(self):
+        random_exception(self)
+        return random.choice([True, False])
 
-        self.ip_address = ip_address
+    def read(self, *args, **kwargs):
+        random_exception(self)
 
-    def switch_on(self):
-        # liga
-        ...
+        return random.choice([True, False])
 
-    def switch_off(self):
-        # desliga
-        ...
 
-    def __del__(self):
-        # Desconecta
-        ...
+if __name__ == '__main__':
+    ser = DeviceBase('')
+
+    print(ser.isOpen())
