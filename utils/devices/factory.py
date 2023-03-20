@@ -8,7 +8,7 @@ from .interrupter import Interrupter
 def get_device(device):
     try:
         return device()
-    except [SerialException, SerialTimeoutException]:
+    except (SerialException, SerialTimeoutException):
         return None
 
 

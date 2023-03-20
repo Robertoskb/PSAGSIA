@@ -1,0 +1,14 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        {% include 'global/partials/head.html' %}
+        <title>Classrooms | {% block title %}{% endblock title %}</title>
+    </head>
+        <main>
+            {% block content %}{% endblock content %}
+        </main>
+    <body>
+</html>
+

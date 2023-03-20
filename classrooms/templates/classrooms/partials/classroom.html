@@ -1,0 +1,13 @@
+<div class="classroom-content">
+    <div class="classroom">
+        <h2>{{ classroom.name }}</h2>
+
+        {% if classroom.interrupter is not None %}
+            <p>Luzes: {{ classroom.interrupter_status }}</p>
+        {% endif %}
+
+        {% if classroom.air_conditioning is not None %}
+            <p>Ares-condicionados: {{ classroom.air_conditioning_status }}</p>
+        {% endif %} 
+    </div>
+</div>
