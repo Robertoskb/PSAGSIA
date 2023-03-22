@@ -3,7 +3,12 @@
 {% block title %}Home{% endblock title %}
 
 {% block content %}
-    {% for classroom in classrooms %}
-        {% include 'classrooms/partials/classroom.html' %}
+    {% for form in forms %}
+        <form action="">
+            {% csrf_token %}
+
+            {% include 'classrooms/partials/classroom.html' %}
+
+        </form>
     {% endfor %}
 {% endblock content %}

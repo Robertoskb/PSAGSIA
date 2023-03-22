@@ -1,13 +1,11 @@
-<div class="classroom-content">
+<div class="classroom-container">
     <div class="classroom">
-        <h2>{{ classroom.name }}</h2>
+        <h2>{{ form.classroom.name }}</h2>
 
-        {% if classroom.interrupter is not None %}
-            <p>Luzes: {{ classroom.interrupter_status }}</p>
-        {% endif %}
+        {% for field in form %}
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+        {% endfor %}
 
-        {% if classroom.air_conditioning is not None %}
-            <p>Ares-condicionados: {{ classroom.air_conditioning_status }}</p>
-        {% endif %} 
     </div>
 </div>

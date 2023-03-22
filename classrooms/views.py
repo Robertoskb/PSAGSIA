@@ -1,5 +1,6 @@
 from django.views.generic.base import TemplateView
 
+from classrooms.forms import ClassRoomForm
 from utils.devices import factory
 
 
@@ -9,6 +10,6 @@ class HomeView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context['classrooms'] = factory.get_classrooms()
+        context['forms'] = (ClassRoomForm(f) for f in factory.get_classrooms())
 
         return context
