@@ -1,4 +1,8 @@
+from collections import defaultdict
+from random import randint
+
 from django import forms
+from django.core.exceptions import ValidationError
 
 from utils.devices import ClassRoom
 
@@ -23,13 +27,18 @@ def checkbox(label, initial, class_name):
 
 
 class ClassRoomForm(forms.Form):
+
     def __init__(self, classroom: ClassRoom, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         self.classroom = classroom
 
+        # adiciona e configura os campos dinamicamente
+
         self.add_air_conditioning()
         self.add_interrupter()
+
+        self._my_errors: dict = defaultdict(list)
 
     def add_air_conditioning(self):
         classroom = self.classroom
@@ -52,3 +61,27 @@ class ClassRoomForm(forms.Form):
             status = classroom.interrupter_status
 
             self.fields[name_field] = checkbox(label, status, class_name)
+
+    def clean(self):
+        if self._my_errors:
+            raise ValidationError(self._my_errors)
+
+        return super().clean()
+
+    def clean_interrupter(self):
+        field_name = 'interrupter'
+        field_value = self.cleaned_data.get(field_name)
+
+        changed = 'ligar' if field_value else 'desligar'
+
+        if randint(0, 1) == 1:
+            self._my_errors[field_name].append(f'Falha ao tentar {changed}')
+
+    def clean_air_conditioning(self):
+        field_name = 'air_conditioning'
+        field_value = self.cleaned_data.get(field_name)
+
+        changed = 'ligar' if field_value else 'desligar'
+
+        if randint(0, 1) == 1:
+            self._my_errors[field_name].append(f'Falha ao tentar {changed}')
