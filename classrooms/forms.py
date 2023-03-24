@@ -1,17 +1,14 @@
 from collections import defaultdict
-from random import randint
 
 from django import forms
 from django.core.exceptions import ValidationError
-
-from utils.devices import ClassRoom
 
 
 def checkbox_disabled(label, class_name):
     class_name += f' {class_name}-disabled'
 
     return forms.BooleanField(
-        label=label,
+        label=label, required=False,
         widget=forms.CheckboxInput(attrs={
             'disabled': True, 'class': class_name,
         }))
@@ -22,66 +19,73 @@ def checkbox(label, initial, class_name):
         return checkbox_disabled(label, class_name)
 
     return forms.BooleanField(
+        required=False,
         label=label, initial=initial,
         widget=forms.CheckboxInput(attrs={'class': class_name, }))
 
 
-class ClassRoomForm(forms.Form):
+def add_field(classroom, name_field, label, class_name):
+    if getattr(classroom, name_field) is not None:
+        status = getattr(classroom, f'last_{name_field}_status')
 
-    def __init__(self, classroom: ClassRoom, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        return checkbox(label, status, class_name)
 
-        self.classroom = classroom
 
-        # adiciona e configura os campos dinamicamente
+class DeclarativeFieldsMetaclass(forms.DeclarativeFieldsMetaclass):
+    def __new__(mcs, name, bases, attrs, classroom):
+        attrs['classroom'] = classroom
 
-        self.add_air_conditioning()
-        self.add_interrupter()
+        for key, value in attrs.items():
+            if isinstance(value, type(lambda: None)) and value.__name__ in ('air_conditioning', 'interrupter'):  # noqa: E501
+                attrs[key] = value(classroom)
 
-        self._my_errors: dict = defaultdict(list)
+        return super().__new__(mcs, name, bases, attrs)
 
-    def add_air_conditioning(self):
-        classroom = self.classroom
-        name_field = 'air_conditioning'
-        label = 'Ares-Condicionados'
-        class_name = 'air-conditioning'
 
-        if classroom.air_conditioning is not None:
-            status = classroom.air_conditioning_status
+def get_classroom_form(classroom, *args, **kwargs):
+    class ClassRoomFormBase(forms.Form, metaclass=DeclarativeFieldsMetaclass, classroom=classroom):  # noqa: E501
+        def interrupter(classroom): return add_field(
+            classroom, 'interrupter', 'luzes', 'interrupter')
 
-            self.fields[name_field] = checkbox(label, status, class_name)
+        def air_conditioning(classroom): return add_field(
+            classroom, 'air_conditioning', 'Ares-Condicionados', 'air-conditioning')  # noqa: E501
 
-    def add_interrupter(self):
-        classroom = self.classroom
-        name_field = 'interrupter'
-        label = 'Luzes'
-        class_name = 'interrupter'
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            self._my_errors = defaultdict(list)
 
-        if classroom.interrupter is not None:
-            status = classroom.interrupter_status
+        def clean(self):
+            if self._my_errors:
+                raise ValidationError(self._my_errors)
 
-            self.fields[name_field] = checkbox(label, status, class_name)
+            return super().clean()
 
-    def clean(self):
-        if self._my_errors:
-            raise ValidationError(self._my_errors)
+        def clean_interrupter(self):
+            field_name = 'interrupter'
+            field_value = self.cleaned_data.get(field_name)
 
-        return super().clean()
+            if self.classroom.last_interrupter_status is None:
+                return
 
-    def clean_interrupter(self):
-        field_name = 'interrupter'
-        field_value = self.cleaned_data.get(field_name)
+            changed = 'ligar' if field_value else 'desligar'
 
-        changed = 'ligar' if field_value else 'desligar'
+            self._my_errors[field_name].append(
+                f'Falha ao tentar {changed} as luzes')
 
-        if randint(0, 1) == 1:
-            self._my_errors[field_name].append(f'Falha ao tentar {changed}')
+            return field_value
 
-    def clean_air_conditioning(self):
-        field_name = 'air_conditioning'
-        field_value = self.cleaned_data.get(field_name)
+        def clean_air_conditioning(self):
+            field_name = 'air_conditioning'
+            field_value = self.cleaned_data.get(field_name)
 
-        changed = 'ligar' if field_value else 'desligar'
+            if self.classroom.last_air_conditioning_status is None:
+                return
 
-        if randint(0, 1) == 1:
-            self._my_errors[field_name].append(f'Falha ao tentar {changed}')
+            changed = 'ligar' if field_value else 'desligar'
+
+            self._my_errors[field_name].append(
+                f'Falha ao tentar {changed} os ares-condicionados')
+
+            return field_value
+
+    return ClassRoomFormBase(*args, **kwargs)

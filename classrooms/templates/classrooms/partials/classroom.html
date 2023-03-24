@@ -1,11 +1,23 @@
 <div class="classroom-container">
     <div class="classroom">
         <h2>{{ form.classroom.name }}</h2>
-
+        
+        <input type="hidden" name="id" value="{{ form.classroom.id}}">
         {% for field in form %}
             <label for="{{ field.id_for_label }}">{{ field.label }}</label>
             {{ field }}
         {% endfor %}
 
+        <br>
+
+        {% for field in form %}
+            {% for error in field.errors %}
+                {{ error }}
+            {% endfor %}
+
+            <br>
+        {% endfor %}
+
+        <button type="submit" class="button-classroom-form">Send</button>
     </div>
 </div>

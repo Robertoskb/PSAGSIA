@@ -4,7 +4,7 @@
 
 {% block content %}
     {% for form in forms %}
-        <form action="">
+        <form action="" method="post">
             {% csrf_token %}
 
             {% include 'classrooms/partials/classroom.html' %}
