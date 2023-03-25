@@ -31,24 +31,12 @@ def add_field(classroom, name_field, label, class_name):
         return checkbox(label, status, class_name)
 
 
-class DeclarativeFieldsMetaclass(forms.DeclarativeFieldsMetaclass):
-    def __new__(mcs, name, bases, attrs, classroom):
-        attrs['classroom'] = classroom
+def get_classroom_form(class_room, *args, **kwargs):
+    class ClassRoomFormBase(forms.Form):
+        classroom = class_room
 
-        for key, value in attrs.items():
-            if isinstance(value, type(lambda: None)) and value.__name__ in ('air_conditioning', 'interrupter'):  # noqa: E501
-                attrs[key] = value(classroom)
-
-        return super().__new__(mcs, name, bases, attrs)
-
-
-def get_classroom_form(classroom, *args, **kwargs):
-    class ClassRoomFormBase(forms.Form, metaclass=DeclarativeFieldsMetaclass, classroom=classroom):  # noqa: E501
-        def interrupter(classroom): return add_field(
-            classroom, 'interrupter', 'luzes', 'interrupter')
-
-        def air_conditioning(classroom): return add_field(
-            classroom, 'air_conditioning', 'Ares-Condicionados', 'air-conditioning')  # noqa: E501
+        interrupter = add_field(classroom, 'interrupter', 'luzes', 'interrupter')  # noqa: E501
+        air_conditioning = add_field(classroom, 'air_conditioning', 'Ares-Condicionados', 'air-conditioning')  # noqa: E501
 
         def __init__(self, *args, **kwargs):
             super().__init__(*args, **kwargs)
