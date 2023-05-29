@@ -1,7 +1,8 @@
-from collections import defaultdict
+# from collections import defaultdict
 
 from django import forms
-from django.core.exceptions import ValidationError
+
+# from django.core.exceptions import ValidationError
 
 
 def checkbox_disabled(label, class_name):
@@ -24,56 +25,22 @@ def checkbox(label, initial, class_name):
         widget=forms.CheckboxInput(attrs={'class': class_name, }))
 
 
-def add_field(classroom, name_field, label, class_name):
-    if getattr(classroom, name_field) is not None:
-        status = getattr(classroom, f'last_{name_field}_status')
+css_classes = {'interrupter': 'interrupter',
+               'air_contioning': 'air-conditioning'}
 
-        return checkbox(label, status, class_name)
+labels = {'interrupter': 'Luzes', 'air_conditioning': 'Ares-Condicionados'}
 
 
-def get_classroom_form(class_room, *args, **kwargs):
-    class ClassRoomFormBase(forms.Form):
-        classroom = class_room
+class ClassRoomFormBase(forms.Form):
+    interrupter = checkbox('Luzes', True, 'interrupter')
+    air_conditioning = checkbox('Ares-Condicionados', True, 'air-conditioning')
 
-        interrupter = add_field(classroom, 'interrupter', 'luzes', 'interrupter')  # noqa: E501
-        air_conditioning = add_field(classroom, 'air_conditioning', 'Ares-Condicionados', 'air-conditioning')  # noqa: E501
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
-        def __init__(self, *args, **kwargs):
-            super().__init__(*args, **kwargs)
-            self._my_errors = defaultdict(list)
+        for field in ('interrupter', 'air_conditioning'):
+            if self.initial.get(field, 0) is None:
+                self.fields[field] = checkbox_disabled(labels[field], css_classes[field])  # noqa:E501
 
-        def clean(self):
-            if self._my_errors:
-                raise ValidationError(self._my_errors)
-
-            return super().clean()
-
-        def clean_interrupter(self):
-            field_name = 'interrupter'
-            field_value = self.cleaned_data.get(field_name)
-
-            if self.classroom.last_interrupter_status is None:
-                return
-
-            changed = 'ligar' if field_value else 'desligar'
-
-            self._my_errors[field_name].append(
-                f'Falha ao tentar {changed} as luzes')
-
-            return field_value
-
-        def clean_air_conditioning(self):
-            field_name = 'air_conditioning'
-            field_value = self.cleaned_data.get(field_name)
-
-            if self.classroom.last_air_conditioning_status is None:
-                return
-
-            changed = 'ligar' if field_value else 'desligar'
-
-            self._my_errors[field_name].append(
-                f'Falha ao tentar {changed} os ares-condicionados')
-
-            return field_value
-
-    return ClassRoomFormBase(*args, **kwargs)
+            if self.initial.get(field) is False:
+                self.fields[field].widget.attrs.pop('checked', None)

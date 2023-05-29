@@ -3,6 +3,10 @@
 {% block title %}Home{% endblock title %}
 
 {% block content %}
+    {% block header %}
+        {% include 'classrooms/partials/header.html' %}
+    {% endblock header %}
+
     {% for form in forms %}
         <form action="" method="post">
             {% csrf_token %}
