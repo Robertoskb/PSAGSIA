@@ -1,6 +1,5 @@
-<div class="classroom-container">
-    <div class="classroom">        
-        {% for field in form %}
+<form class="register-form">
+    {% for field in form %}
             <label for="{{ field.id_for_label }}">{{ field.label }}</label>
             {{ field }}
         {% endfor %}
@@ -13,8 +12,7 @@
             {% endfor %}
 
             <br>
-        {% endfor %}
-
-        <button type="submit" class="button-classroom-form">Send</button>
-    </div>
-</div>
+    {% endfor %}
+    <div class="button-container"><button class="btn btn-primary button-register"
+            type="submit">Cadastrar</button></div>
+</form>

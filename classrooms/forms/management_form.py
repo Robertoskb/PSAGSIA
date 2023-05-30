@@ -31,7 +31,7 @@ css_classes = {'interrupter': 'interrupter',
 labels = {'interrupter': 'Luzes', 'air_conditioning': 'Ares-Condicionados'}
 
 
-class ClassRoomFormBase(forms.Form):
+class ClassRoomForm(forms.Form):
     interrupter = checkbox('Luzes', True, 'interrupter')
     air_conditioning = checkbox('Ares-Condicionados', True, 'air-conditioning')
 

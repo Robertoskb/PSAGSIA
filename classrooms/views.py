@@ -1,6 +1,7 @@
 from django.views.generic.base import TemplateView
+from django.views.generic.edit import FormView
 
-from classrooms.forms import ClassRoomFormBase
+from classrooms.forms import ClassRoomForm, RegisterClassRoomForm
 
 classrooms = range(10)
 
@@ -11,7 +12,7 @@ class HomeView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context['forms'] = [ClassRoomFormBase(initial={'interrupter': None})
+        context['forms'] = [ClassRoomForm(initial={'interrupter': None})
                             for _ in classrooms]
 
         return context
@@ -20,3 +21,8 @@ class HomeView(TemplateView):
         context = self.get_context_data(**kwargs)
 
         return self.render_to_response(context)
+
+
+class ClassRoomRegisterView(FormView):
+    template_name = 'classrooms/pages/classroom_register.html'
+    form_class = RegisterClassRoomForm
