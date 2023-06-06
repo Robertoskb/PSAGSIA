@@ -12,9 +12,9 @@ class HomeView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context['forms_names'] = [(ClassRoomForm(initial={'interrupter': None}),
-                                   classroom.name)
-                                  for classroom in ClassRoom.objects.all()]
+        context['forms_names'] = [
+            (ClassRoomForm(initial={'interrupter': None}), classroom.name)
+            for classroom in ClassRoom.objects.all()]
 
         return context
 
