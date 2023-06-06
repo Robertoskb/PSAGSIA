@@ -1,0 +1,65 @@
+/* formularios */
+
+@charset "UTF-8";
+
+
+#fundo {
+    background-color: #030027;
+    color: #ffffff;
+
+}
+
+.register-container {
+    margin-top: 130px;
+}
+
+.register-form input[type="text"] {
+    margin: auto;
+}
+
+.register-title {
+    color: #FFDA24;
+    text-align: center;
+}
+
+.register-form {
+    margin: 0 auto;
+    width: 400px;
+    padding: 20px;
+    background-color: #151E3F;
+    border-radius: 5px;
+}
+
+.register-form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.register-form input[type="text"] {
+    width: 100%;
+    padding: 5px;
+    border-radius: 3px;
+    border: none;
+    margin-bottom: 10px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button-register {
+    width: 100%;
+    background-color: #FFDA24;
+    color: #000000;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 3px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.button-register:hover {
+    background-color: #61DD27;
+    color: #030027;
+}

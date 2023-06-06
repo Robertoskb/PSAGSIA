@@ -1,5 +1,6 @@
 <div class="classroom-container">
-    <div class="classroom">        
+    <div class="classroom">
+        <h1>{{ name }}</h1>
         {% for field in form %}
             <label for="{{ field.id_for_label }}">{{ field.label }}</label>
             {{ field }}

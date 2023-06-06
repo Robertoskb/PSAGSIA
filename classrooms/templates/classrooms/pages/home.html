@@ -7,7 +7,7 @@
         {% include 'classrooms/partials/header.html' %}
     {% endblock header %}
 
-    {% for form in forms %}
+    {% for form, name in forms_names %}
         <form action="" method="post">
             {% csrf_token %}
 

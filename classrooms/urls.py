@@ -6,5 +6,5 @@ app_name = 'classrooms'
 
 urlpatterns = [
     path('', views.HomeView.as_view(), name='home'),
-    path('classroomform/', views.ClassRoomRegisterView.as_view(), name='classroom'),  # noqa:E501
+    path('classroom/create', views.ClassRoomRegisterView.as_view(), name='create'),  # noqa:E501
 ]
