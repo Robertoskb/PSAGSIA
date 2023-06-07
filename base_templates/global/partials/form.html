@@ -1,19 +1,14 @@
 <form class="register-form" method="POST">
     {% csrf_token %}
     {% for field in form %}
-            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-            {{ field }}
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+
+        {% for error in field.errors %}
+            {{ error }}
         {% endfor %}
-
-        <br>
-
-        {% for field in form %}
-            {% for error in field.errors %}
-                {{ error }}
-            {% endfor %}
-
-            <br>
     {% endfor %}
+    
     <div class="button-container"><button class="btn btn-primary button-register"
             type="submit">Cadastrar</button></div>
 </form>
