@@ -2,3 +2,4 @@
 
 from .management_form import *
 from .register_classroom_form import *
+from .register_block_form import *

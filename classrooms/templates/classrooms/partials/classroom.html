@@ -1,21 +1,21 @@
-<div class="classroom-container">
-    <div class="classroom">
-        <h1>{{ name }}</h1>
-        {% for field in form %}
-            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-            {{ field }}
-        {% endfor %}
+<div class="card" style="width: 18rem;">
+    <div class="card-body">
+      <p class="card-text"><strong>{{ name }}</strong></p>
+      <div class="button-card">
+        <form method="POST">
+            {% csrf_token %}
+            {% for field in form %}
+                {{ field }}
 
-        <br>
-
-        {% for field in form %}
-            {% for error in field.errors %}
-                {{ error }}
+                {% for error in field.errors %}
+                    {{ error }}
+                {% endfor %}
             {% endfor %}
 
-            <br>
-        {% endfor %}
+            <div class="button-card"><button class="btn btn-outline-success"
+                type="submit">Enviar</button></div>
 
-        <button type="submit" class="button-classroom-form">Send</button>
+        </form>
+      </div>
     </div>
 </div>

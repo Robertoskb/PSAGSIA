@@ -5,4 +5,4 @@ from classrooms.models import ClassRoom
 class RegisterClassRoomForm(forms.ModelForm):
     class Meta:
         model = ClassRoom
-        fields = ('name', 'block_name', 'port')
+        fields = ('name', 'block', 'port')

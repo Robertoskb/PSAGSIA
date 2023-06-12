@@ -32,15 +32,25 @@ labels = {'interrupter': 'Luzes', 'air_conditioning': 'Ares-Condicionados'}
 
 
 class ClassRoomForm(forms.Form):
-    interrupter = checkbox('Luzes', True, 'interrupter')
-    air_conditioning = checkbox('Ares-Condicionados', True, 'air-conditioning')
+    AC_CHOICES = [
+        ('turn_on_ac', 'Ligar Ar-Condicionado'),
+        ('turn_off_ac', 'Desligar Ar-Condicionado'),
+    ]
+    LIGHT_CHOICES = [
+        ('turn_on_light', 'Ligar Luzes'),
+        ('turn_off_light', 'Desligar Luzes'),
+    ]
 
-    def __init__(self, *args, **kwargs):
+    ac_control = forms.ChoiceField(
+        choices=AC_CHOICES, widget=forms.RadioSelect)
+    light_control = forms.ChoiceField(
+        choices=LIGHT_CHOICES, widget=forms.RadioSelect)
+
+    def __init__(self, *args, initial_ac='turn_off_ac',
+                 initial_light='turn_on_light', **kwargs):
+
         super().__init__(*args, **kwargs)
-
-        for field in ('interrupter', 'air_conditioning'):
-            if self.initial.get(field, 0) is None:
-                self.fields[field] = checkbox_disabled(labels[field], css_classes[field])  # noqa:E501
-
-            if self.initial.get(field) is False:
-                self.fields[field].widget.attrs.pop('checked', None)
+        if initial_ac is not None:
+            self.fields['ac_control'].initial = initial_ac
+        if initial_light is not None:
+            self.fields['light_control'].initial = initial_light

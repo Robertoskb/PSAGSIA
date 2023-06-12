@@ -1,20 +1,24 @@
 from django.http import HttpResponse
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView
-from django.urls import reverse_lazy
-from classrooms.forms import ClassRoomForm, RegisterClassRoomForm
-from classrooms.models import ClassRoom
+from django.urls import reverse
+from classrooms.forms import ClassRoomForm, RegisterClassRoomForm, RegisterBlockForm  # noqa:E501
+from classrooms.models import ClassRoom, Block
 
 
-class HomeView(TemplateView):
-    template_name = 'classrooms/pages/home.html'
+class BlockView(TemplateView):
+    template_name = 'classrooms/pages/block.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context['forms_names'] = (
-            (ClassRoomForm(initial={'interrupter': None}), classroom.name)
-            for classroom in ClassRoom.objects.all())
+        block_id = kwargs.pop('block')
+        classrooms = ClassRoom.objects.filter(block=block_id)
+
+        context['forms_names'] = ((ClassRoomForm(), classroom.name)
+                                  for classroom in classrooms)
+
+        context['blocks'] = Block.objects.all().order_by('name')
 
         return context
 
@@ -25,9 +29,8 @@ class HomeView(TemplateView):
 
 
 class ClassRoomRegisterView(FormView):
-    template_name = 'classrooms/pages/classroom_register.html'
+    template_name = 'classrooms/pages/register.html'
     form_class = RegisterClassRoomForm
-    success_url = reverse_lazy('classrooms:create')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -36,6 +39,27 @@ class ClassRoomRegisterView(FormView):
         return context
 
     def form_valid(self, form) -> HttpResponse:
-        form.save()
+        classroom = form.save()
+
+        self.success_url = reverse(
+            'classrooms:block', args=(classroom.block.id,))
+
+        return super().form_valid(form)
+
+
+class BlockRegisterView(FormView):
+    template_name = 'classrooms/pages/register.html'
+    form_class = RegisterBlockForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form_title'] = 'Cadastro de Ambiente'
+
+        return context
+
+    def form_valid(self, form) -> HttpResponse:
+        block = form.save()
+
+        self.success_url = reverse('classrooms:block', args=(block.id,))
 
         return super().form_valid(form)

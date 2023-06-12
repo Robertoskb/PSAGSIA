@@ -1,108 +1,122 @@
-@charset "UTF-8";
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-/* provisório */
-
-.classroom-container {
+main {
+  background: #151E3F;
+  height: 1920px;
+}
+p{
+    text-align: center;
+}
+.card {
+    position: relative;
+    top: 80px;
+    left: 100px;
+    background-color: #fff;
+    color: black;
+    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.6);
+}
+.button-card {
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  height: 100%;
-  max-width: 100%;
+  gap: 10px;
 }
 
-.classroom {
-  flex: 0 0 calc(33.33% - 20px);
-  margin: 10px;
-  border: 1px solid black;
-  padding: 20px;
-  text-align: center;
-  background-color: #f9e7e7;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+ 
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+* {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
 }
-
-.classroom h2 {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.classroom p {
-  font-size: 16px;
-  margin: 10px 0;
-}
-
-.floating-button {
+nav {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 9999;
-  background-color:black;
+  top: 0;
+  left: 0;
+  height: 70px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background: #151E3F;
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+}
+nav .logo {
+  display: flex;
+  align-items: center;
+  margin: 0 24px;
+}
+.logo .menu-icon {
   color: #fff;
-  padding: 10px;
-  text-align: center;
   font-size: 24px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-  border: none;
+  margin-right: 14px;
   cursor: pointer;
 }
-
-.button-classroom-form {
-  margin-top: 10px;
-  background-color: black;
-  color: white;
-  width: 100%;
-  height: 50px;
+.logo .logo-name {
+  color: #fff;
+  font-size: 22px;
+  font-weight: 500;
 }
-/*provisório*/
-body#fundo {
-  background-color:#f9e7e7;
-  color: rgba(0,0,0 1); 
-  font-family: arial, sans-serif;
+nav .sidebar {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  height: 100%;
+  width: 260px;
+  padding: 20px 0;
+  background-color: #151E3F;
+  box-shadow: 0 5px 1px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s ease;
 }
-
-/*provisório*/
-div#interface {
-  width: 1000px;
-  margin: 50px auto 0px auto;
-  background-color: #fff;
-  position: relative;
-  box-shadow: 0px 0px 10px rgba(0,0,0,.5);
-  padding: 15px;
+nav.open .sidebar {
+  left: 0;
 }
-
-/*provisório*/
-a#logo {
-  font-size: 30px;
-  color: #07020d;
-  text-shadow: 1px 1px 1px rgba(0,0,0,.6);
+.sidebar .sidebar-content {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 30px 16px;
 }
-
-/*Estilização do rodapé*/
-footer#rodape {
-  clear: both;
-  border-top: 1px solid #606060;
+.sidebar-content .list {
+  list-style: none;
 }
-
-footer#rodape p{
-  text-align: center;
-  font-size: 15px;
-  color: #07020d;
-  text-shadow: 1px 1px 1px rgba(0,0,0,.3);
+.list .nav-link {
+  display: flex;
+  align-items: center;
+  margin: 8px 0;
+  padding: 14px 12px;
+  border-radius: 8px;
+  text-decoration: none;
 }
-
-/*Estilização da imagem ícone*/
-img#icone {
-  width: 15%; 
-  height: auto;
-  position: absolute; 
-  left: 940px;
-  top: 50px;
+.lists .nav-link:hover {
+  background-color: #4070f4;
+}
+.nav-link .icon {
+  margin-right: 14px;
+  font-size: 20px;
+  color: #fff;
+}
+.nav-link .link {
+  font-size: 16px;
+  color: #fff;
+  font-weight: 400;
+}
+.lists .nav-link:hover .icon,
+.lists .nav-link:hover .link {
+  color: #fff;
+}
+.overlay {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  height: 1000vh;
+  width: 200%;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.4s ease;
+  background: rgba(0, 0, 0, 0.3);
+}
+nav.open ~ .overlay {
+  opacity: 1;
+  left: 260px;
+  pointer-events: auto;
 }

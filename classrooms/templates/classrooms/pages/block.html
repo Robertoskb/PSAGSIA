@@ -1,0 +1,25 @@
+{% extends 'global/base.html' %}
+
+{% block title %}Home{% endblock title %}
+
+{% block content %}
+    {% for form, name in forms_names %}
+
+        {% include 'classrooms/partials/classroom.html' %}
+
+    {% endfor %}
+
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <p class="card-text"><strong>Adicionar Sala</strong></p>
+          <div class="button-card">
+    
+            <a href="{% url 'classrooms:create' %}" style="text-decoration:none;">
+                <div class="button-card"><button class="btn btn-outline-success"
+                    type="submit">Criar</button></div>
+            </a>
+          </div>
+        </div>
+    </div>
+
+{% endblock content %}
