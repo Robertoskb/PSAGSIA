@@ -10,7 +10,12 @@
       </div>
       <div class="sidebar-content">
         <ul class="lists">
-          
+          <li class="list">
+            <a href="{% url 'classrooms:all' %}" class="nav-link">
+              <i class="bx bx-home-alt icon"></i>
+              <span class="link">Geral</span>
+            </a>
+          </li>
           {% for block in blocks %}
             <li class="list">
               <a href="{% url 'classrooms:block' block.id %}" class="nav-link">
