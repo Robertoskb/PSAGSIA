@@ -17,14 +17,15 @@ class BlockView(TemplateView):
 
         block_id = kwargs.pop('block')
 
-        get_object_or_404(Block, id=block_id)
+        block = get_object_or_404(Block, id=block_id)
 
         classrooms = ClassRoom.objects.filter(block=block_id).order_by('name')
 
-        context['forms_names'] = ((ClassRoomForm(), classroom.name)
-                                  for classroom in classrooms)
-
-        context['blocks'] = Block.objects.all().order_by('name')
+        context.update({
+            'forms_names': ((ClassRoomForm(), classroom.name) for classroom in classrooms),  # noqa:E501
+            'blocks': Block.objects.all().order_by('name'),
+            'title': block.name,
+        })
 
         return context
 
@@ -40,12 +41,13 @@ class AllClassroomsView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        classrooms = ClassRoom.objects.all().order_by('name')
+        classrooms = ClassRoom.objects.all().order_by('name')  # noqa:E501
 
-        context['forms_names'] = ((ClassRoomForm(), classroom.name)
-                                  for classroom in classrooms)
-
-        context['blocks'] = Block.objects.all().order_by('name')
+        context.update({
+            'forms_names': ((ClassRoomForm(), classroom.name) for classroom in classrooms),  # noqa:E501
+            'blocks': Block.objects.all().order_by('name'),
+            'title': 'Overview',
+        })
 
         return context
 

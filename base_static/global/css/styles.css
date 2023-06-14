@@ -5,14 +5,24 @@ main {
 p{
     text-align: center;
 }
+
 .card {
+    width: 18rem;
+    margin: 3px;
     position: relative;
     top: 80px;
-    left: 100px;
+    left: 9px;
     background-color: #fff;
     color: black;
     box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.6);
 }
+
+@media (max-width: 302px){
+  .card{
+    width: 15rem;
+  }
+}
+
 .button-card {
   display: flex;
   justify-content: center;
