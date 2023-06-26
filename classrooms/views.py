@@ -4,8 +4,8 @@ from django.urls import reverse
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView
 
-from classrooms.forms import (ClassRoomForm, RegisterBlockForm,  # noqa:E501
-                              RegisterClassRoomForm)
+from classrooms.forms import (
+    ClassRoomForm, RegisterBlockForm, RegisterClassRoomForm)
 from classrooms.models import Block, ClassRoom
 
 
