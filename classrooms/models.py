@@ -14,7 +14,8 @@ class ClassRoom(models.Model):
         Block, null=True, on_delete=models.SET_NULL, blank=True)
     port = models.CharField(max_length=20)
 
-    unique_together = ('name', 'block')
+    class Meta:
+        unique_together = ('block', 'name')
 
     def __str__(self):
         return self.name
