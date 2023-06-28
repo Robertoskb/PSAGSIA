@@ -21,7 +21,7 @@ from django.urls import include, path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', lambda request: redirect('classrooms:all')),
+    path('', lambda request: redirect('classrooms:overview')),
     path('classrooms/', include('classrooms.urls')),
     path('profiles/', include('profiles.urls')),
 ]
