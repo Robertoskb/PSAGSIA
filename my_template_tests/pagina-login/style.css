@@ -1,0 +1,112 @@
+* {
+    padding: 0;
+    border: 0;
+}
+
+body {
+    background-color: #030027;
+    color: rgba(0,0,0 1); 
+    font-family: arial, sans-serif;
+}
+
+main {
+    width: 80%;
+    margin: 60px auto 0px;
+    background-color: #151E3F;
+    position: relative;
+    box-shadow: 0px 0px 10px rgba(0,0,0,.5);
+    padding: 15px;
+    text-align: center;
+}
+
+main h1 {
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 40px;
+    color: #ffffff;
+    text-shadow: 1px 1px 1px rgba(0,0,0,.6);
+    padding: 0px;
+    margin-bottom: 0px;
+}
+
+nav a {
+    text-align: center;
+    display: block;
+}
+
+p {
+    text-align: center; 
+}
+
+a#botaologin {
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    width: 250px;
+    margin: 0 auto 10px auto;
+    padding: 10px 20px;
+    background-color: #61DD27;
+    color: #FFFFFF;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+}
+      
+a#botaologin:hover {
+    background-color: #2E8B57;
+}
+
+a#botaoadmin {
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    width: 250px;
+    margin: 0 auto 10px auto;
+    padding: 10px 20px;
+    background-color: #FF1B1C;
+    color: #FFFFFF;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    cursor: pointer;
+}
+a#botaoadmin:hover {
+    background-color: #d01919;
+}
+
+a#botaovisita {
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    width: 250px;
+    margin: 0 auto 10px auto;
+    padding: 10px 20px;
+    background-color: #4070f4;
+    color: #FFFFFF;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    cursor: pointer;
+}
+
+a#botaovisita:hover {
+    background-color: #2f54bb;
+}
+
+@media (max-width: 600px) {
+    a#botaologin,
+    a#botaoadmin,
+    img#logo,
+    a#botaovisita {
+        width: 80%;
+    }
+}
