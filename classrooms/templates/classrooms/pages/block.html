@@ -3,12 +3,6 @@
 {% block title %}{{ title }}{% endblock title %}
 
 {% block content %}
-    {% for form, name in forms_names %}
-
-        {% include 'classrooms/partials/classroom.html' %}
-
-    {% endfor %}
-
     <div class="card d-inline-block">
         <div class="card-body">
           <p class="card-text"><strong>Adicionar Sala</strong></p>
@@ -19,5 +13,10 @@
           </div>
         </div>
     </div>
+    {% for form, name in forms_names %}
+
+        {% include 'classrooms/partials/classroom.html' %}
+
+    {% endfor %}
 
 {% endblock content %}
