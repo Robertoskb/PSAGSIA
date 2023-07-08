@@ -5,6 +5,7 @@ main {
 
 p{
     text-align: center;
+    font-size: 16pt;
 }
 
 header#titulo {
@@ -125,6 +126,12 @@ nav.open .sidebar {
   text-decoration: none;
   color: #fff
 }
+#botoes-rodape {
+  position: flex;
+  margin-top: 70%;
+  left: 0;
+  width: 100%;
+}
 
 .list a:hover {
   background-color: #4070f4;
@@ -184,10 +191,11 @@ nav.open ~ .overlay {
   background-image: url("media2/nomelogo-corte.png");
   background-size: cover;
 }
-.divider {
-  border-top: 1px solid #ffffff;
-  margin-top: 10px;
-  margin-bottom: 10px;
+
+.submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @media (max-width: 768px) {

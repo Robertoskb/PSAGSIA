@@ -11,9 +11,11 @@ const navBar = document.querySelector("nav"),
      });
 
 document.addEventListener('DOMContentLoaded', function() {
-  var menuToggle = document.getElementById('menu-toggle');
-  
-  menuToggle.addEventListener('click', function() {
-    this.classList.toggle('active');
+  var menuToggle = document.getElementsByClassName('menu-toggle');
+
+  Array.from(menuToggle).forEach(function(element) {
+    element.addEventListener('click', function() {
+      this.classList.toggle('active');
+    });
   });
 });
