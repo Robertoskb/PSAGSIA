@@ -87,7 +87,15 @@ nav .sidebar {
   background-color: #151E3F;
   box-shadow: 0 5px 1px rgba(0, 0, 0, 0.1);
   transition: all 0.4s ease;
+  overflow-y: hidden; 
 }
+
+/* Ocultar a barra de rolagem */
+.sidebar::-webkit-scrollbar {
+  width: 0.5em;
+  background-color: transparent;
+}
+
 .submenu {
   display: none;
 }
@@ -126,9 +134,12 @@ nav.open .sidebar {
   text-decoration: none;
   color: #fff
 }
+
 #botoes-rodape {
-  position: flex;
-  margin-top: 70%;
+  position: absolute;
+  bottom: 20px;   
+  padding: 4px 20px;
+  margin: 2px 0;
   left: 0;
   width: 100%;
 }
